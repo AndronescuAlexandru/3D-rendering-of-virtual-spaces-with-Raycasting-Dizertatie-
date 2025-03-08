@@ -20,6 +20,24 @@ sf::RectangleShape exitGameButton;
 sf::Texture mainMenuBackgroundTexture;
 sf::Sprite mainMenuBackgroundSprite;
 
+void ResizeMainMenuBackground(sf::View view)
+{
+    unsigned int width = view.getSize().x;
+    unsigned int height = view.getSize().y;
+    float scaleX = static_cast<float>(width) / mainMenuBackgroundTexture.getSize().x;
+    float scaleY = static_cast<float>(height) / mainMenuBackgroundTexture.getSize().y;
+
+    // Maintain aspect ratio (optional)
+    float scale = std::max(scaleX, scaleY);
+    mainMenuBackgroundSprite.setScale(scale, scale);
+
+    // Center the sprite
+    float newWidth = mainMenuBackgroundTexture.getSize().x * scale;
+    float newHeight = mainMenuBackgroundTexture.getSize().y * scale;
+    mainMenuBackgroundSprite.setPosition((width - newWidth) / 2.f, (height - newHeight) / 2.f);
+
+}
+
 void UIConstruct(sf::Font font)
 {
     startGameButton.setSize(sf::Vector2f(button_width, button_height));
@@ -39,8 +57,8 @@ void UIConstruct(sf::Font font)
     exitButtonText.setFont(font);
     versionID.setFont(font);
 
-    startButtonText.setString("Start new game");
-    loadGameButtonText.setString("Load game");
+    startButtonText.setString("Start demo level");
+    loadGameButtonText.setString("Load level from file");
     optionsButtonText.setString("Options");
     exitButtonText.setString("Exit game");
     versionID.setString(VERSION_ID);

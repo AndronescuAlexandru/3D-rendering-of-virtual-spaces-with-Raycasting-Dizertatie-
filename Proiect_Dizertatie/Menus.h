@@ -23,6 +23,7 @@ extern void Raycasting(sf::RenderWindow& window, sf::RenderStates state, sf::Ver
 
 extern CurrentLevel currentLevel;
 
+void ResizeMainMenuBackground(sf::View);
 void UIConstruct(sf::Font font);
 void MainMenu(sf::RenderWindow& window, sf::RenderStates& state, sf::Font font);
 void PauseMenu(sf::RenderWindow& window, sf::Font font, sf::Event event, sf::View view, sf::Vector2i& prevMousePosition, sf::Vector2i& windowCenter);

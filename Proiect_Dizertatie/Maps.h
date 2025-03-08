@@ -67,7 +67,12 @@ public:
 
     struct SpriteObject {
         sf::Vector2f position;  // X, Y on the map
+        sf::Vector2f size = sf::Vector2f(0.5f, 0.5f); // Collision size
         int textureID;          // Which sprite texture to use
+        bool isLightSource = true;
+        bool isActive = false; // For lamps or interactive sprites
+        bool isSolid = false;  // For furniture objects
+        int lightRadius = 5;  // Tiles to affect with light when active
         float distance;         // Distance from the player (for sorting)
     };
 
@@ -88,15 +93,17 @@ public:
 struct Level_0
 {
     // map size
-    const int MAP_WIDTH = 128;
-    const int MAP_HEIGHT = 128;
-    const float maxWallHeight = 3;
+    const int MAP_WIDTH = 16;
+    const int MAP_HEIGHT = 16;
+    const float maxWallHeight = 2;
+    const float defaultStartingPosX = 1.5;
+    const float defaultStartingPosY = 1.5;
 
     const char* mapFileAdress = "Data/Maps/Level_0.map";
-    const char* textureAdress = "Data/Textures/level_0_textures.png";
+    const char* ceilingTilesMapFileAdress = "Data/Maps/Level_0_ceiling_Tiles.map";
+    const char* textureAdress = "Data/Textures/level_1_textures.png";
     const char* ambientSFXAdress = "Data/Audio/Level0LightAmbience.mp3";
     const char* footstepsSFXAdress = "Data/Audio/CarpetFootsteps.mp3";
-    const char* entitySFXAdress = "Data/Audio/EntitySFX.mp3";
 
 };
 

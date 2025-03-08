@@ -18,7 +18,6 @@ Player::Player()
     playerSize = 0.375;
     playerMoveSpeed = 2;
     playerRotateSpeed = 3.0;
-    sanity = 100;
 }
 
 Player::~Player()
@@ -52,6 +51,15 @@ bool Player::CanMove(sf::Vector2f position, sf::Vector2f size)
             {
                 return false;
             }
+        }
+    }
+
+    // Check for furniture collisions
+    for (auto& obj : currentLevel.spriteObjects)
+    {
+        if (obj.isSolid && fabs(position.x - obj.position.x) < size.x + obj.size.x && fabs(position.y - obj.position.y) < size.y + obj.size.y)
+        {
+            return false;
         }
     }
     return true;

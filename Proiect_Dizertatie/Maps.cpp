@@ -21,8 +21,8 @@ extern void SetBlackScreen(sf::RenderWindow& window, sf::Time seconds);
 CurrentLevel::CurrentLevel()
 {
     ID = 0;
-    MAP_WIDTH = 384;
-    MAP_HEIGHT = 384;
+    MAP_WIDTH = 16;
+    MAP_HEIGHT = 16;
     maxWallHeight = 1;
 }
 
@@ -124,8 +124,7 @@ void CurrentLevel::loadSprites()
     switch (ID)
     {
     case 0:
-        spriteObjects.push_back({ sf::Vector2f(5.5f, 3.5f), 0 });
-        spriteObjects.push_back({ sf::Vector2f(8.0f, 6.0f), 1 });
+        spriteObjects.push_back({ sf::Vector2f(5.0f, 5.0f),sf::Vector2f(0.5f, 1.0f), 0});
         break;
     case 1:
 
@@ -141,14 +140,7 @@ void CurrentLevel::loadSprites()
 void CurrentLevel::loadLevel(sf::RenderWindow& window, sf::RenderStates& state, bool defaultPlayerStartingPos)
 {
     footsteps.setVolume(master_sound_volume);
-    levelEntranceSound.setVolume(master_sound_volume);
-
-    if (!entitySoundBuffer.loadFromFile("Data/Audio/EntitySFX.mp3"))
-    {
-        printf("Cannot open sound file EntitySFX.mp3!\n");
-    }
-
-    EntitySFX.setBuffer(currentLevel.entitySoundBuffer);
+    
     // loads files specific for each level and set render state that uses the texture
     switch (ID)
     {
@@ -156,14 +148,10 @@ void CurrentLevel::loadLevel(sf::RenderWindow& window, sf::RenderStates& state, 
     {
         loadSprites();
         loadMapFile(level_0.mapFileAdress);
+        loadCeilingMapFile(level_0.ceilingTilesMapFileAdress);
         if (!Textures.loadFromFile(level_0.textureAdress))
         {
             printf("Cannot open file %c\n", level_0.textureAdress);
-        }
-
-        if (!soundBuffer.loadFromFile(level_0.ambientSFXAdress))
-        {
-            printf("Cannot open sound file %c\n", level_0.ambientSFXAdress);
         }
 
         if (!footstepsBuffer.loadFromFile(level_0.footstepsSFXAdress))
@@ -177,21 +165,16 @@ void CurrentLevel::loadLevel(sf::RenderWindow& window, sf::RenderStates& state, 
 
         state.texture = &Textures;
 
-        AmbientSFX.setBuffer(soundBuffer);
-        AmbientSFX.setVolume(0.5 * master_sound_volume);
-        AmbientSFX.play();
-        AmbientSFX.setLoop(true);
-
         defaultWallShading = 1.1;
         wallShading = 1.1;
 
-        color1 = sf::Color(182, 179, 102);
+        color1 = sf::Color(255, 255, 255);
         color2 = sf::Color(255, 255, 255);
 
-        floorColor = sf::Color(178, 163, 106);
+        floorColor = sf::Color(255, 255, 255);
 
         if(noSaveFile == true || defaultPlayerStartingPos == true)
-            player.setPlayerNewPos(66, 38);
+            player.setPlayerNewPos(level_0.defaultStartingPosX, level_0.defaultStartingPosY);
 
         break;
     }
